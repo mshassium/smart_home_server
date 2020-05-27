@@ -1,0 +1,11 @@
+{
+  "name": "Smart Home Server",
+  "description": "",
+  "repository": "https://github.com/mshassium/smart-home-server",
+  "success_url": "/",
+  "keywords": ["rust", "actix"],
+  "website": "https://github.com/mshassium/smart-home-server",
+  "env": {
+    "BUILDPACK_URL": "https://github.com/emk/heroku-buildpack-rust.git"
+  }
+}
