@@ -1,3 +1,4 @@
+use std::env;
 use std::fmt::Display;
 use std::fmt::Formatter;
 use std::fmt::Result;
@@ -6,23 +7,18 @@ use actix_web::{App, HttpResponse, HttpServer, Responder, web};
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
+    let port = env::var("PORT")
+        .unwrap_or_else(|_| "3000".to_string())
+        .parse()
+        .expect("PORT must be a number");
     HttpServer::new(|| {
         App::new()
-            .route("/", web::get().to(index))
-            .route("/again", web::get().to(index2))
             .route("/home-info", web::get().to(get_home_info))
     })
-        .bind("127.0.0.1:8088")?
+        .bind(("0.0.0.0", port))
+        .expect("Can not bind to port 8000")
         .run()
         .await
-}
-
-async fn index() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
-}
-
-async fn index2() -> impl Responder {
-    HttpResponse::Ok().body("Hello world again!")
 }
 
 async fn get_home_info() -> impl Responder {
